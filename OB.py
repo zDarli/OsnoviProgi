@@ -1,15 +1,17 @@
-def SymEnc(text, key):
+def SymbEnc(text, key):#посимвольно
     ost_len = len(text) % len(key)
     text += ((len(key) - ost_len) % len(key)) * '\0'
     tempt = ""
     ost_text = ""
     if len(key)<len(text):#если ключ будет меньше чем текст, что не влезло просто пихается в конец
         ost_text = text[len(text)-len(key):]
+        ost_text = SymbEnc(ost_text,key)
     for i in range(len(text)):
         c = 0
         for j in key:
-            if int(j) == i:
-                tempt+=text[c]
+            if int(j) == i and text[c] != "\0":
+                tempt+= text[c]
+                break
             c+=1
     tempt+=ost_text #пихаем в конец остаток
     return tempt
@@ -29,7 +31,7 @@ key = input('Введите ключ (через пробел, например 
 #шифрование
 text = input("Введите текст:\n")
 if typ3 == "1":
-        result = SymEnc(text,key)  
+        result = SymbEnc(text,key)  #(рас)шифровка посимвольно
 print(result)
 
     
